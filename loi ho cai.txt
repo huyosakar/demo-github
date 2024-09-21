@@ -1,0 +1,95 @@
+class Person:
+    def __init__(self, id="", hovaten="", ngaysinh="", quequan=""):
+        self.id = id
+        self.hovaten = hovaten
+        self.ngaysinh = ngaysinh
+        self.quequan = quequan
+
+    def nhap_thong_tin(self):
+        self.id = input("Nhập ID: ")
+        self.hovaten = input("Nhập họ và tên: ")
+        self.ngaysinh = input("Nhập ngày sinh (dd/mm/yyyy): ")
+        self.quequan = input("Nhập quê quán: ")
+
+    def xuat_thong_tin(self):
+        print(f"ID: {self.id}")
+        print(f"Họ và tên: {self.hovaten}")
+        print(f"Ngày sinh: {self.ngaysinh}")
+        print(f"Quê quán: {self.quequan}")
+
+
+class KySu(Person):
+    def __init__(self, id="", hovaten="", ngaysinh="", quequan="", nganhhoc="", namtotnghiep=0):
+        super().__init__(id, hovaten, ngaysinh,quequan)
+        self.nganhhoc = nganhhoc
+        self.namtotnghiep = namtotnghiep
+
+    def nhap(self):
+        super().nhap()
+        self.nganhhoc = input("Nhập ngành học: ")
+        self.namtotnghiep = int(input("Nhập năm tốt nghiệp: "))
+
+    def xuat(self):
+        super().xuat()
+        print(f"Ngành học: {self.nganhhoc}")
+        print(f"Năm tốt nghiệp: {self.namtotnghiep}")
+
+danhsachkysu = []
+
+def nhapkysuvaodanhsach():
+    ks = KySu()
+    ks.nhap()
+    danhsachkysu.append(ks)
+    print("Kỹ sư đã được thêm vào danh sách.")
+
+def hiendanhsachkysu():
+    if not danhsachkysu:
+        print("Danh sách kỹ sư trống.")
+    else:
+        print("Danh sách kỹ sư:")
+        for ks in danhsachkysu:
+            ks.xuat()
+            print("--------------------")
+
+def hienkysutotnghiepgannhat():
+    if not danhsachkysu:
+        print("Danh sách kỹ sư trống.")
+    else:
+        namtotnghiepmax = max(ks.namtotnghiep for ks in danhsachkysu)
+        print(f"Kỹ sư tốt nghiệp gần nhất năm {nam_tot_nghiep_max}:")
+        for ks in danhsachkysu:
+            if ks.namtotnghiep == namtotnghiepmax:
+                ks.xuat()
+                print("--------------------")
+
+def xoakysutheoid():
+    idxoa = input("Nhập ID kỹ sư cần xóa: ")
+    global danhsachkysu
+    danhsachkysu = [ks for ks in danhsachkysu if ks.id != idxoa]
+    print(f"Kỹ sư với ID {idxoa} đã được xóa.")
+
+def menu():
+    while True:
+        print("\nMenu:")
+        print("1. Nhập kỹ sư vào danh sách")
+        print("2. Hiện danh sách kỹ sư")
+        print("3. Hiện danh sách kỹ sư có năm tốt nghiệp gần nhất")
+        print("4. Xóa kỹ sư theo mã sinh viên")
+        print("0. Thoát chương trình")
+        p = int(input("Nhập lựa chọn của bạn: "))
+
+        if p==1:
+            nhapkysuvaodanhsach()
+        elif p==2:
+            hiendanhsachkysu()
+        elif p==3:
+            hienkysutotnghiepgannhat()
+        elif p==4:
+            xoakysutheoid()
+        elif p==0:
+            print("Thoát chương trình.")
+            break
+        else:
+            print("Lựa chọn không hợp lệ! Vui lòng nhập lại.")
+if __name__ == "__main__":
+    menu()
